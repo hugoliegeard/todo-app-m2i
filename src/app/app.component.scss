@@ -1,0 +1,46 @@
+* {
+  --ion-font-family: "Roboto Condensed", sans-serif;
+  font-weight: 300;
+  /* TODO Revoir */
+}
+
+/*.ion-padding {
+  backdrop-filter: blur(50px);
+}*/
+
+ion-content::part(background) {
+  background: url("../assets/bg.jpg") no-repeat white;
+  background-position-y: 3.5rem;
+  background-size: cover;
+}
+
+ion-checkbox {
+  --checkbox-background-checked: #fab41e;
+  --checkmark-color: #ad7c14;
+  --border-color-checked: #ad7c14;
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 2px solid #fab41e
+}
+
+ion-content::part(scroll) {
+  color: #ad7c14;
+}
+
+ion-title {
+  font-family: "Roboto Condensed", sans-serif;
+  --color: #fab41e;
+}
+
+.done {
+  color: #ad7c14;
+  text-decoration: line-through;
+}
+
+.nbTasks {
+  font-size: 1.8em;
+  margin-right: 1rem;
+  font_weight: 800;
+}
