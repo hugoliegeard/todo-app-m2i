@@ -1,11 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Storage} from "@ionic/storage-angular";
-
-class Task {
-  id: number = Date.now();
-  name: string;
-  status: boolean = false;
-}
+import {Task} from "./models/task";
 
 /**
  * @Component est ce qu'on appel un décorateur.

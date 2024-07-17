@@ -44,22 +44,23 @@
 
       <ion-list class="list">
 
-        <ion-item-sliding *ngFor="let task of tasks">
-          <ion-item>
-            <ion-label *ngIf="task.status" [class.done]="task.status">{{ task.name }}</ion-label>
-            <ion-input type="text"
-                       *ngIf="!task.status"
-                       (ionBlur)="saveTasks()"
-                       [(ngModel)]="task.name"></ion-input>
-            <ion-checkbox
-              (ionChange)="saveTasks()"
-              [(ngModel)]="task.status"
-              [checked]="task.status" slot="start"></ion-checkbox>
-          </ion-item>
-          <ion-item-options side="end" (ionSwipe)="deleteTask(task)">
-            <ion-item-option (click)="deleteTask(task)" color="danger"
-                             expandable>Supprimer</ion-item-option>
-          </ion-item-options>
+        <ion-item-sliding *ngFor="let task of tasks | tasksFilter">
+            <ion-item>
+              <ion-label *ngIf="task.status" [class.done]="task.status">{{ task.name }}</ion-label>
+              <ion-input type="text"
+                         *ngIf="!task.status"
+                         (ionBlur)="saveTasks()"
+                         [(ngModel)]="task.name"></ion-input>
+              <ion-checkbox
+                (ionChange)="saveTasks()"
+                [(ngModel)]="task.status"
+                [checked]="task.status" slot="start"></ion-checkbox>
+            </ion-item>
+            <ion-item-options side="end" (ionSwipe)="deleteTask(task)">
+              <ion-item-option (click)="deleteTask(task)" color="danger"
+                               expandable>Supprimer
+              </ion-item-option>
+            </ion-item-options>
         </ion-item-sliding>
 
         <ion-item>
@@ -69,7 +70,6 @@
                      (keydown)="keyDetection($event.code)"
                      placeholder="Ajouter une tâche..."></ion-input>
         </ion-item>
-
       </ion-list>
 
     </div>
