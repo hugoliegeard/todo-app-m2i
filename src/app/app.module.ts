@@ -8,10 +8,11 @@ import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {IonicStorageModule} from "@ionic/storage-angular";
 import {TasksFilterPipe} from "./pipes/tasks-filter.pipe";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), FormsModule, TasksFilterPipe],
+  imports: [BrowserModule, IonicModule.forRoot(), HttpClientModule, IonicStorageModule.forRoot(), FormsModule, TasksFilterPipe],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

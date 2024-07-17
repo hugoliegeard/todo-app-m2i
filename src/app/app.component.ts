@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Storage} from "@ionic/storage-angular";
 import {Task} from "./models/task";
+import {TaskService} from "./services/task.service";
+import {Observable} from "rxjs";
 
 /**
  * @Component est ce qu'on appel un décorateur.
@@ -20,7 +22,9 @@ import {Task} from "./models/task";
  */
 export class AppComponent implements OnInit {
 
-  constructor(private storage: Storage) {
+  tasksObservable$: Observable<Task[]>;
+
+  constructor(private storage: Storage, private taskService: TaskService) {
   }
 
   /**
@@ -34,12 +38,21 @@ export class AppComponent implements OnInit {
    * juste après le constructeur.
    */
   async ngOnInit(): Promise<void> {
-    await this.storage.create();
+
+    // Chargement depuis le storage
+
+    /*await this.storage.create();
     await this.storage.get('tasks').then((tasks: Task[]) => {
       if (tasks !== null) {
         this.tasks = tasks;
       }
-    })
+    })*/
+
+    // Chargement depuis l'API
+    this.taskService.getTasks().subscribe(tasks => {
+      this.tasks = tasks["hydra:member"];
+    });
+
   }
 
   // -- Déclaration d'une variable
