@@ -44,3 +44,34 @@ ion-title {
   margin-right: 1rem;
   font_weight: 800;
 }
+
+.ios ion-buttons.iosOnly {
+  display: none;
+}
+
+.tsk {
+  margin: 1rem 0;
+
+  &__text {
+    font-size: 1rem;
+    padding: 1rem;
+    text-align: left;
+    border-radius: 10px;
+
+    p {
+      line-height: 1.8rem;
+      margin: 0;
+    }
+
+    ion-icon {
+      font-size: 1.7rem;
+    }
+
+    &_warning {
+      color: #856404;
+      background-color: #fff3cd;
+      border-color: #ffeeba;
+    }
+
+  }
+}

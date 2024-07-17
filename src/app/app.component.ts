@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Storage} from "@ionic/storage-angular";
 
 class Task {
   id: number = Date.now();
@@ -22,7 +23,29 @@ class Task {
  * mais aussi, son comportement. Dans le contexte MVVM,
  * notre classe correspond au "Model".
  */
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  constructor(private storage: Storage) {
+  }
+
+  /**
+   * Cette fonction s'exécute au tout début du
+   * chargement d'un composant, avant son affichage.
+   * ---------------------------------------------
+   * C'est un bon moyen, de préparer des données
+   * avant qu'elle ne soit visible par l'utilisateur...
+   * ---------------------------------------------
+   * Cette fonction est appelée par Angular,
+   * juste après le constructeur.
+   */
+  async ngOnInit(): Promise<void> {
+    await this.storage.create();
+    await this.storage.get('tasks').then((tasks: Task[]) => {
+      if (tasks !== null) {
+        this.tasks = tasks;
+      }
+    })
+  }
 
   // -- Déclaration d'une variable
   title: string = "Mes Tâches";
@@ -31,44 +54,13 @@ export class AppComponent {
   task: Task = new Task();
 
   // -- Liste de nos tâches
-  tasks: Task[] = [
-    {
-      id: Date.now(),
-      name: 'Promener le chien',
-      status: false,
-    },
-    {
-      id: Date.now(),
-      name: 'Promener ma fille',
-      status: false,
-    },
-    {
-      id: Date.now(),
-      name: 'Promener mon épouse',
-      status: false,
-    },
-    {
-      id: Date.now(),
-      name: 'Faire la vaisselle',
-      status: true,
-    },
-    {
-      id: Date.now(),
-      name: 'Sortir les poubelles',
-      status: false,
-    },
-    {
-      id: Date.now(),
-      name: 'Envoyer mes factures à M2i',
-      status: true,
-    },
-  ];
+  tasks: Task[] = [];
 
   /**
    * Déclenche l'enregistrement des tâches
    */
-  saveTasks() {
-    // TODO : Permet de sauvegarder les tâches
+  async saveTasks() {
+    await this.storage.set('tasks', this.tasks);
   }
 
   /**
@@ -102,5 +94,14 @@ export class AppComponent {
       // On remet a zéro la tâche
       this.task = new Task();
     }
+  }
+
+  /**
+   * Permet de supprimer une tache
+   * @param task
+   */
+  deleteTask(task: Task) {
+    this.tasks.splice(this.tasks.indexOf(task), 1);
+    this.saveTasks();
   }
 }
