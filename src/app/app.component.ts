@@ -49,8 +49,8 @@ export class AppComponent implements OnInit {
     })*/
 
     // Chargement depuis l'API
-    this.taskService.getTasks().subscribe(tasks => {
-      this.tasks = tasks["hydra:member"];
+    this.taskService.getTasks().subscribe(data => {
+      this.tasks = data["hydra:member"];
     });
 
   }
@@ -69,6 +69,10 @@ export class AppComponent implements OnInit {
    */
   async saveTasks() {
     await this.storage.set('tasks', this.tasks);
+  }
+
+  saveTask(task: Task) {
+    this.taskService.editTask(task).subscribe(data => {});
   }
 
   /**
@@ -94,13 +98,21 @@ export class AppComponent implements OnInit {
       // console.log(this.task);
 
       // On pousse la nouvelle tâche dans le tableau
-      this.tasks.push(this.task);
+      // this.tasks.push(this.task);
 
-      // On sauvegarde les tâches
-      this.saveTasks();
+      // On sauvegarde les tâches (Cas du stockage en local)
+      // this.saveTasks();
 
       // On remet a zéro la tâche
-      this.task = new Task();
+      // this.task = new Task();
+
+      // -------------------------------
+
+      // On sauvegarde la tâche en BDD (Cas avec l'API)
+      this.taskService.addTask(this.task).subscribe(task => {
+        this.tasks.push(task);
+        this.task = new Task();
+      });
     }
   }
 
@@ -109,7 +121,13 @@ export class AppComponent implements OnInit {
    * @param task
    */
   deleteTask(task: Task) {
-    this.tasks.splice(this.tasks.indexOf(task), 1);
-    this.saveTasks();
+    // Suppression de la tâche de l'API
+    this.taskService.removeTask(task).subscribe(data => {
+      // Suppression de la tâche du tableau
+      this.tasks.splice(this.tasks.indexOf(task), 1);
+    });
+    
+    // Sauvegarde des tâches (Cas du stockage en local)
+    // this.saveTasks();
   }
 }

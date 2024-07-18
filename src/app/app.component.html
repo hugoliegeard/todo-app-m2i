@@ -49,10 +49,10 @@
               <ion-label *ngIf="task.status" [class.done]="task.status">{{ task.name }}</ion-label>
               <ion-input type="text"
                          *ngIf="!task.status"
-                         (ionBlur)="saveTasks()"
+                         (ionBlur)="saveTask(task)"
                          [(ngModel)]="task.name"></ion-input>
               <ion-checkbox
-                (ionChange)="saveTasks()"
+                (ionChange)="saveTask(task)"
                 [(ngModel)]="task.status"
                 [checked]="task.status" slot="start"></ion-checkbox>
             </ion-item>
